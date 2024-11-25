@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -37,10 +38,17 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(libs.firebase.storage)
+    implementation(libs.firebase.database)
+    implementation(files("activation.jar"))
+    implementation(files("additionnal.jar"))
+    implementation(files("mail.jar"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    //implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
-    //implementation("com.google.firebase:firebase-storage")
+    //implementation(platform(libs.firebase.bom))
+    //implementation(libs.firebase.storage)
+    implementation(libs.glide)
+    implementation("de.hdodenhof:circleimageview:1.2.1")
 }
 

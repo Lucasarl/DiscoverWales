@@ -3,7 +3,12 @@
     <style name="Base.Theme.DiscoverWales" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name= "android:itemBackground"> #F0F0F0</item>
     </style>
 
     <style name="Theme.DiscoverWales" parent="Base.Theme.DiscoverWales" />
+
+    <style name="PopupMenuStyle" parent="Theme.AppCompat.Light">
+        <item name="android:popupBackground">#D3D3D3</item> <!-- Light gray -->
+    </style>
 </resources>

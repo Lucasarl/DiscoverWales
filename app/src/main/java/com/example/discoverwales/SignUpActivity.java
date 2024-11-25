@@ -3,26 +3,42 @@ package com.example.discoverwales;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SignUpActivity extends AppCompatActivity {
+    String imageId=null;
+    StorageReference storageReference;
     boolean fieldsChecked = false;
+    Button uploadImage;
     private static connectionPG con=new connectionPG();
     private static final String EMAIL_PATTERN =
             "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
@@ -33,9 +49,26 @@ public class SignUpActivity extends AppCompatActivity {
 
     private static final Pattern passwordPattern = Pattern.compile(PASSWORD_PATTERN);
     private static final String NAME_PATTERN =
-            "^[a-zA-Z]+$";
-
+            "^[a-zA-Z\\s]+$";
+    FirebaseStorage storage = FirebaseStorage.getInstance();
     private static final Pattern namePattern = Pattern.compile(NAME_PATTERN);
+    ImageView imageView;
+    Uri image;
+    private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+           if(result.getResultCode()==RESULT_OK) {
+               if(result.getData()!=null){
+                   image=result.getData().getData();
+                   Glide.with(getApplicationContext()).load(image).into(imageView);
+                   uploadImage.setEnabled(true);
+                   uploadImage(image);
+               }
+           } else {
+               Toast.makeText(SignUpActivity.this,"Please select an image", Toast.LENGTH_SHORT).show();
+           }
+        }
+    });
 
 
     @Override
@@ -48,6 +81,8 @@ public class SignUpActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        imageView = (ImageView) findViewById(R.id.imageView);
+        imageView.setImageResource(R.drawable.profile_pic);
         ImageButton clearEmail=findViewById((R.id.clearEmail));
         ImageButton clearPassword=findViewById((R.id.clearPassword));
         ImageButton clearFirstName=findViewById((R.id.clearFirstName));
@@ -76,11 +111,25 @@ public class SignUpActivity extends AppCompatActivity {
             etRepeatPassword.setText("");
         });
 
+        FirebaseApp.initializeApp(SignUpActivity.this);
+        storageReference = FirebaseStorage.getInstance().getReference();
+        uploadImage= findViewById(R.id.choosePfpButton);
+
+        uploadImage.setOnClickListener( v -> {
+            //StorageReference imgRef = storageRef.child("IMG.jpg");
+            //StorageReference locationImgRef = storageRef.child("C:/Users/USER/OneDrive/Imágenes");
+            Intent intent= new Intent(Intent.ACTION_PICK);
+            intent.setType("image/*");
+            activityResultLauncher.launch(intent);
+            //uploadImage(image);
+
+        });
+
         signUp.setOnClickListener(v -> {
             fieldsChecked = CheckFields(etEmail,etPassword,etFirstName,etLastName,etRepeatPassword);
             boolean signedUp=false;
             if (fieldsChecked){
-                signedUp=signUp(etEmail.getText().toString(), etPassword.getText().toString(), etFirstName.getText().toString(), etLastName.getText().toString());
+                signedUp=signUp(etEmail.getText().toString(), etPassword.getText().toString(), etFirstName.getText().toString(), etLastName.getText().toString(),imageId);
             }
             if(signedUp&&fieldsChecked){
                 AlertDialog.Builder builder=new AlertDialog.Builder(SignUpActivity.this);
@@ -155,6 +204,12 @@ public class SignUpActivity extends AppCompatActivity {
         return true;
     }
 
+    private void uploadImage(Uri image) {
+        imageId=UUID.randomUUID().toString();
+        StorageReference reference= storageReference.child("images/"+ imageId);
+        reference.putFile(image);
+    }
+
     public static boolean isValidEmail(String email) {
         if (email == null) {
             return false;
@@ -179,7 +234,7 @@ public class SignUpActivity extends AppCompatActivity {
         return matcher.matches();
     }
 
-    public boolean signUp(String email, String password, String firstName, String lastName) {
+    public boolean signUp(String email, String password, String firstName, String lastName, String profilePicture) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -203,12 +258,13 @@ public class SignUpActivity extends AppCompatActivity {
                     return false;
                 }
 
-                String insertSql = "INSERT INTO \"Users\" (email, password, \"firstName\", \"lastName\") VALUES (?, ?, ?, ?)";
+                String insertSql = "INSERT INTO \"Users\" (email, password, \"firstName\", \"lastName\", \"profilePicture\") VALUES (?, ?, ?, ?, ?)";
                 pstmt = conn.prepareStatement(insertSql);
                 pstmt.setString(1, email);
                 pstmt.setString(2, password);
                 pstmt.setString(3, firstName);
                 pstmt.setString(4,lastName);
+                pstmt.setString(5, profilePicture);
 
                 int rowsInserted = pstmt.executeUpdate();
 
@@ -241,4 +297,6 @@ public class SignUpActivity extends AppCompatActivity {
         }
         return false;
     }
+
+
 }

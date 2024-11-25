@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MenuItemStyle">
+        <item name="android:background">#D3D3D3</item> <!-- Light gray -->
+        <item name="android:textColor">#DDA0DD</item> <!-- Light purple -->
+    </style>
+</resources>

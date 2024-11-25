@@ -1,14 +1,12 @@
 package com.example.discoverwales;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         EditText etPassword = findViewById(R.id.password);
         Button logIn = findViewById(R.id.logIn);
         Button signUp = findViewById(R.id.signUp);
+        TextView recoverPassword = findViewById(R.id.forgottenPassword);
         ImageButton clearEmail=findViewById((R.id.clearEmail));
         ImageButton clearPassword=findViewById((R.id.clearPassword));
         logIn.setOnClickListener(v -> {
@@ -64,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
         clearPassword.setOnClickListener( v -> {
             etPassword.setText("");
         });
+        recoverPassword.setOnClickListener( v -> {
+            Intent i = new Intent(MainActivity.this, ResetPassword.class);
+            startActivity(i);
+        });
         signUp.setOnClickListener( v -> {
             Intent i = new Intent(MainActivity.this, SignUpActivity.class);
             startActivity(i);
@@ -75,38 +78,14 @@ public class MainActivity extends AppCompatActivity {
             etEmail.setError("Email is required");
             etEmail.requestFocus();
             return false;
-        } else if (!isValidEmail(etEmail.getText().toString())) {
-            etEmail.setError("Incorrect email format");
-            etEmail.requestFocus();
-            return false;
         }
 
         if (etPassword.getText().toString().isEmpty()) {
             etPassword.setError("Password is required");
             etPassword.requestFocus();
             return false;
-        } else if (!isValidPassword(etPassword.getText().toString())) {
-            etPassword.setError("Password must at least 9 characters, a number, and a special character");
-            etPassword.requestFocus();
-            return false;
         }
         return true;
-    }
-
-    public static boolean isValidEmail(String email) {
-        if (email == null) {
-            return false;
-        }
-        Matcher matcher = emailPattern.matcher(email);
-        return matcher.matches();
-    }
-
-    public static boolean isValidPassword(String password) {
-        if (password == null) {
-            return false;
-        }
-        Matcher matcher = passwordPattern.matcher(password);
-        return matcher.matches();
     }
 
     public void logIn(String email, String password) {
@@ -127,14 +106,19 @@ public class MainActivity extends AppCompatActivity {
                 rs = pstmt.executeQuery();
                 AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
                 builder.setCancelable(false);
-
                 if (rs.next()) {
-                    builder.setMessage("You have signed in successfully").setPositiveButton("OK", (dialog, which) -> dialog.dismiss());;
+                    builder.setMessage("You have signed in successfully").setPositiveButton("OK", (dialog, which) -> {Intent i = new Intent(MainActivity.this, MuseumsActivity.class);
+                        i.putExtra("email", email);
+                        startActivity(i);
+                    });;
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 } else {
                     builder.setMessage("Email or password incorrect").setPositiveButton("OK", (dialog, which) -> dialog.dismiss());;
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 }
-                AlertDialog dialog = builder.create();
-                dialog.show();
+
             } else {
                 System.err.println("Database connection failed!");
             }
