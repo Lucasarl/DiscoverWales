@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "564116194890",
+    "project_id": "discoverwalescloud",
+    "storage_bucket": "discoverwalescloud.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564116194890:android:ca00b9273027870b5c48b3",
+        "android_client_info": {
+          "package_name": "com.example.discoverwales"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkQEIVSXOjCBeTOXSHup8VDY3QLZmyEho"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
