@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/museums"
+        android:title="Profile Settings" />
+
+    <item
+        android:id="@+id/cultural_library"
+        android:title="Log Out"
+        />
+
+
+
+</menu>

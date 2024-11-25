@@ -58,6 +58,7 @@ public class SignUpActivity extends AppCompatActivity {
         @Override
         public void onActivityResult(ActivityResult result) {
            if(result.getResultCode()==RESULT_OK) {
+               System.out.println("Ok");
                if(result.getData()!=null){
                    image=result.getData().getData();
                    Glide.with(getApplicationContext()).load(image).into(imageView);
@@ -114,6 +115,7 @@ public class SignUpActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(SignUpActivity.this);
         storageReference = FirebaseStorage.getInstance().getReference();
         uploadImage= findViewById(R.id.choosePfpButton);
+        System.out.println(storageReference.getBucket());
 
         uploadImage.setOnClickListener( v -> {
             //StorageReference imgRef = storageRef.child("IMG.jpg");
@@ -132,6 +134,7 @@ public class SignUpActivity extends AppCompatActivity {
                 signedUp=signUp(etEmail.getText().toString(), etPassword.getText().toString(), etFirstName.getText().toString(), etLastName.getText().toString(),imageId);
             }
             if(signedUp&&fieldsChecked){
+                //uploadImage(image);
                 AlertDialog.Builder builder=new AlertDialog.Builder(SignUpActivity.this);
                 builder.setMessage("You have signed up successfully");
                 builder.setCancelable(false);
