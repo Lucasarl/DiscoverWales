@@ -82,6 +82,12 @@ public class SignUpActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        ImageButton backArrow=findViewById(R.id.back);
+        backArrow.setImageResource(R.drawable.back_arrow);
+        backArrow.setOnClickListener( v -> {
+            Intent i = new Intent(SignUpActivity.this, MainActivity.class);
+            startActivity(i);
+        });
         imageView = (ImageView) findViewById(R.id.imageView);
         imageView.setImageResource(R.drawable.profile_pic);
         ImageButton clearEmail=findViewById((R.id.clearEmail));

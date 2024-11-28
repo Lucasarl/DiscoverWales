@@ -48,6 +48,7 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     //implementation(platform(libs.firebase.bom))
     //implementation(libs.firebase.storage)
+    implementation("org.apache.commons:commons-lang3:3.12.0")
     implementation(libs.glide)
     implementation("de.hdodenhof:circleimageview:1.2.1")
 }

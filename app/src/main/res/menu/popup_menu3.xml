@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/instagram"
+        android:title="Instagram" />
+
+    <item
+        android:id="@+id/twitter"
+        android:title="Twitter"
+        />
+
+    <item
+        android:id="@+id/facebook"
+        android:title="Facebook"
+        />
+
+
+
+</menu>

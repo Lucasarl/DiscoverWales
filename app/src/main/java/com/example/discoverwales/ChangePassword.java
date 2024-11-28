@@ -13,6 +13,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,11 +39,20 @@ public class ChangePassword extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        Bundle extras = getIntent().getExtras();
         ImageButton backArrow=findViewById(R.id.back);
         backArrow.setImageResource(R.drawable.back_arrow);
         backArrow.setOnClickListener( v -> {
+            System.out.println("HI "+extras.getString("activity"));
+            if(extras.getString("activity").equals("pin")){
             Intent i = new Intent(ChangePassword.this, ResetPassword.class);
-            startActivity(i);
+            startActivity(i);} else if (extras.getString("activity").equals("settings")) {
+                Intent i = new Intent(ChangePassword.this, ProfileSettings.class);
+                String email=extras.getString("email");
+                i.putExtra("email",email);
+                i.putExtra("activity1", extras.getString("activity1"));
+                startActivity(i);
+            }
         });
 
         ImageButton clearPassword = findViewById(R.id.clearPassword);
@@ -56,7 +67,7 @@ public class ChangePassword extends AppCompatActivity {
         clearRepeatPassword.setOnClickListener( v -> {
             etRepeatPassword.setText("");
         });
-        Bundle extras = getIntent().getExtras();
+
         Button changePassword = findViewById(R.id.changePassword);
         changePassword.setOnClickListener(v->{
             if(checkFields(etPassword,etRepeatPassword)) {
@@ -73,8 +84,16 @@ public class ChangePassword extends AppCompatActivity {
                     rs = pstmt.executeUpdate();
                     System.out.println("About to show the dialog");
                     AlertDialog.Builder builder=new AlertDialog.Builder(ChangePassword.this);
-                    builder.setMessage("You have successfully changed your account's password").setPositiveButton("OK", (dialog, which) -> {Intent i = new Intent(ChangePassword.this, MainActivity.class);
-                        startActivity(i);});;
+                    builder.setMessage("You have successfully changed your account's password").setPositiveButton("OK", (dialog, which) -> {
+                        if(extras.getString("activity").equals("pin")){
+                            Intent i = new Intent(ChangePassword.this, MainActivity.class);
+                            startActivity(i);} else if (extras.getString("activity").equals("settings")) {
+                            Intent i = new Intent(ChangePassword.this, ProfileSettings.class);
+                            String email=extras.getString("email");
+                            i.putExtra("email",email);
+                            i.putExtra("activity1", extras.getString("activity1"));
+                            startActivity(i);
+                        }});;
                     AlertDialog successfulChange= builder.create();
                     successfulChange.show();
                 } catch (Exception e) {

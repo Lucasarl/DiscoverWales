@@ -8,6 +8,19 @@
     android:layout_alignWithParentIfMissing="true"
     tools:context=".SignUpActivity">
 
+    <ImageButton
+        android:id="@+id/back"
+        android:layout_width="52dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="204dp"
+        android:background="#00FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/textView4"
+        app:layout_constraintEnd_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/arrow_down_float" />
+
     <EditText
         android:id="@+id/firstName"
         android:layout_width="260dp"

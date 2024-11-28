@@ -58,6 +58,7 @@ public class IntroducePIN extends AppCompatActivity {
             if(correctPIN) {
                 Intent i = new Intent(IntroducePIN.this, ChangePassword.class);
                 i.putExtra("email", extras.getString("email"));
+                i.putExtra("activity", "pin");
                 startActivity(i);
             } else {
                 AlertDialog.Builder builder=new AlertDialog.Builder(IntroducePIN.this);
