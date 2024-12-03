@@ -142,12 +142,12 @@
                     android:paddingBottom="5dp">
 
                     <LinearLayout
+                        android:id="@+id/layout2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
                         android:background="@drawable/layout_border"
-                        android:padding="5dp"
-                        >
+                        android:orientation="vertical"
+                        android:padding="5dp">
 
                         <ImageButton
                             android:id="@+id/imageButton3"
@@ -188,12 +188,12 @@
                     android:paddingBottom="5dp">
 
                     <LinearLayout
+                        android:id="@+id/layout3"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/layout_border"
                         android:orientation="vertical"
-                        android:padding="5dp"
-                        >
+                        android:padding="5dp">
 
                         <ImageButton
                             android:id="@+id/imageButton5"
@@ -228,12 +228,12 @@
                     android:paddingBottom="5dp" >
 
                     <LinearLayout
+                        android:id="@+id/layout4"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
                         android:background="@drawable/layout_border"
-                        android:padding="5dp"
-                        >
+                        android:orientation="vertical"
+                        android:padding="5dp">
 
                         <ImageButton
                             android:id="@+id/imageButton9"
@@ -274,12 +274,12 @@
                     android:paddingBottom="5dp">
 
                     <LinearLayout
+                        android:id="@+id/layout5"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
                         android:background="@drawable/layout_border"
-                        android:padding="5dp"
-                        >
+                        android:orientation="vertical"
+                        android:padding="5dp">
 
                         <ImageButton
                             android:id="@+id/imageButton6"
@@ -314,12 +314,12 @@
                     android:paddingBottom="5dp">
 
                     <LinearLayout
+                        android:id="@+id/layout6"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
                         android:background="@drawable/layout_border"
-                        android:padding="5dp"
-                        >
+                        android:orientation="vertical"
+                        android:padding="5dp">
 
                         <ImageButton
                             android:id="@+id/imageButton8"

@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                     builder.setMessage("You have signed in successfully").setPositiveButton("OK", (dialog, which) -> {Intent i = new Intent(MainActivity.this, MuseumsActivity.class);
                         i.putExtra("email", email);
                         startActivity(i);
-                    });;
+                    });
                     AlertDialog dialog = builder.create();
                     dialog.show();
                 } else {

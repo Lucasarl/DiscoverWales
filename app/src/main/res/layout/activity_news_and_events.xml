@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:id="@+id/main"
+    >
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="78dp"
+        android:layout_marginTop="1dp"
+        android:background="#CCC2DC"
+        android:orientation="horizontal"
+    >
+
+        <RelativeLayout
+            android:layout_width="117dp"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingTop="15dp">
+
+            <ImageButton
+                android:id="@+id/menu"
+                android:layout_width="43dp"
+                android:layout_height="43dp"
+                android:background="#00FFFFFF"
+                android:paddingLeft="0dp"
+                 />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="177dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="20dp"
+                android:text="Discovery Wales"
+                android:textAlignment="center"
+                android:textSize="23sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="117dp"
+            android:layout_height="match_parent"
+            android:paddingLeft="67dp"
+            android:paddingTop="15dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile"
+                android:layout_width="50dp"
+                android:layout_height="38dp"
+                android:paddingLeft="0dp"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <!-- Back Arrow -->
+    <ImageView
+        android:id="@+id/backArrow"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/back_arrow" />
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Events and News"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="16dp" />
+
+    <!-- RecyclerView for the news items -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@android:color/white"
+        android:padding="8dp"
+        android:layout_marginVertical="4dp"
+        android:layout_marginHorizontal="4dp"
+        android:elevation="2dp">
+
+        <!-- Image -->
+        <ImageView
+            android:id="@+id/newsImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="8dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/news1logo" />
+
+        <!-- Content -->
+
+        <!-- Read More Button -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/newsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="How the magic and mystery of Wales come alive in winter"
+                android:textColor="#000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- Subtitle -->
+            <TextView
+                android:id="@+id/newsSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="For centuries, midway between the autumn equinox and winter solstice, the Welsh people have celebrated Calan Gaeaf on November 1."
+                android:textColor="#666"
+                android:textSize="14sp" />
+
+            <!-- Date and Author -->
+            <TextView
+                android:id="@+id/newsDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="12/10/2023 Author: John Smith"
+                android:textColor="#888"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/readMoreButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Read More"
+            android:textAllCaps="false"
+            android:backgroundTint="#7B4DAB"
+            android:textColor="#FFF"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <!-- Pagination Controls -->
+</LinearLayout>
+

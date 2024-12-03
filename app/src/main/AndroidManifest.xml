@@ -15,6 +15,18 @@
         android:theme="@style/Theme.DiscoverWales"
         tools:targetApi="31">
         <activity
+            android:name=".MakeReview"
+            android:exported="false" />
+        <activity
+            android:name=".NewsAndEvents"
+            android:exported="false" />
+        <activity
+            android:name=".Library_info1"
+            android:exported="false" />
+        <activity
+            android:name=".CulturalLibrary"
+            android:exported="false" />
+        <activity
             android:name=".MuseumInfo1"
             android:exported="false" />
         <activity

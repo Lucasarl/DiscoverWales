@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -29,10 +30,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MuseumInfo1 extends AppCompatActivity {
+public class MuseumInfo1 extends AppCompatActivity  implements WebViewTouchListener{
 
     private static final connectionPG con = new connectionPG();
     private CircleImageView profilePic;
@@ -53,12 +56,26 @@ public class MuseumInfo1 extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
 
+        TextView title = findViewById(R.id.title);
+        if (extras.getString("museum").equals("national_museum")) {
+            title.setText("National Museum Cardiff");
+        } else if (extras.getString("museum").equals("cardiff_museum")) {
+            title.setText("Cardiff Museum");
+        } else if (extras.getString("museum").equals("st_fagans")) {
+            title.setText("St Fagans Museum");
+        } else if (extras.getString("museum").equals("coal_museum")) {
+            title.setText("National Coal Museum");
+        } else if (extras.getString("museum").equals("legion_museum")) {
+            title.setText("National Legion Museum");
+        }
+
+
         profilePic = findViewById(R.id.profile);
         profilePic.setImageResource(R.drawable.profile_pic);
         ImageButton menuButton = findViewById(R.id.menu);
         menuButton.setImageResource(R.drawable.menu);
 
-        ImageButton share=findViewById(R.id.share);
+        ImageButton share = findViewById(R.id.share);
         share.setImageResource(R.drawable.share);
 
         setupShare(share);
@@ -68,19 +85,19 @@ public class MuseumInfo1 extends AppCompatActivity {
         }
 
         setupMenu(menuButton, "Museums");
-        setupProfileMenu(profilePic,extras.getString("email"));
+        setupProfileMenu(profilePic, extras.getString("email"));
 
 
-        ImageButton backArrow=findViewById(R.id.back2);
+        ImageButton backArrow = findViewById(R.id.back2);
         backArrow.setImageResource(R.drawable.back_arrow);
-        backArrow.setOnClickListener( v -> {
-                Intent i = new Intent(MuseumInfo1.this, MuseumsActivity.class);
-                i.putExtra("email", extras.getString("email"));
-                startActivity(i);
-            });
+        backArrow.setOnClickListener(v -> {
+            Intent i = new Intent(MuseumInfo1.this, MuseumsActivity.class);
+            i.putExtra("email", extras.getString("email"));
+            startActivity(i);
+        });
 
         tabLayout = findViewById(R.id.tab_layout);
-        viewPager2 =findViewById(R.id.view_pager);
+        viewPager2 = findViewById(R.id.view_pager);
         viewPagerAdapter = new ViewPagerAdapter(this);
         viewPager2.setAdapter(viewPagerAdapter);
 
@@ -173,6 +190,12 @@ public class MuseumInfo1 extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onWebViewTouched(boolean isTouched) {
+        ViewPager2 viewPager2 = findViewById(R.id.view_pager);
+        viewPager2.setUserInputEnabled(!isTouched); // Disable or enable swiping
+    }
+
     private void setupProfileMenu(CircleImageView profilePicView, String email) {
         profilePicView.setOnClickListener(v -> {
             PopupMenu popup = new PopupMenu(MuseumInfo1.this, profilePicView);
@@ -194,25 +217,82 @@ public class MuseumInfo1 extends AppCompatActivity {
     }
 
     private void setupShare(ImageButton share) {
+        // Retrieve the selected museum from the Intent extra
+        Intent intent = getIntent();
+        String selectedMuseum = intent.getStringExtra("museum");
+
+        // Define the social media links for each museum
+        Map<String, Map<String, String>> museumLinks = new HashMap<>();
+        museumLinks.put("cardiff_castle", Map.of(
+                "Facebook", "https://www.facebook.com/officialcardiffcastle/?locale=en_GB",
+                "Instagram", "https://www.instagram.com/cardiff_castle/",
+                "Twitter", "https://x.com/cardiff_castle?lang=es"
+        ));
+        museumLinks.put("national_museum", Map.of(
+                "Facebook", "https://www.facebook.com/museumcardiff/?locale=en_GB",
+                "Instagram", "https://www.instagram.com/cardiffnationalmuseum/",
+                "Twitter", "https://x.com/Museum_Cardiff?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"
+        ));
+
+        museumLinks.put("cardiff_museum", Map.of(
+                "Facebook", "https://www.facebook.com/cardiffstory/?locale=en_GB",
+                "Instagram", "https://www.instagram.com/museumofcardiff/",
+                "Twitter", "https://x.com/TheCardiffStory?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"
+        ));
+
+        museumLinks.put("st_fagans", Map.of(
+                "Facebook", "https://www.facebook.com/stfagansmuseum/?locale=en_GB",
+                "Instagram", "https://www.instagram.com/stfagansmakersmarket/",
+                "Twitter", "https://x.com/StFagans_Museum?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"
+        ));
+
+        museumLinks.put("coal_museum", Map.of(
+                "Facebook", "https://www.facebook.com/bigpitmuseum/?locale=en_GB",
+                "Instagram", "https://www.instagram.com/ncmme_miningmuseum/",
+                "Twitter", "https://x.com/BigPitMuseum?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"
+        ));
+
+        museumLinks.put("legion_museum", Map.of(
+                "Facebook", "https://www.facebook.com/romanlegionmuseum/?locale=en_GB",
+                "Instagram", "https://www.instagram.com/explore/locations/254715255/national-roman-legion-museum/",
+                "Twitter", "https://x.com/RomanCaerleon?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"
+        ));
+        // Add links for all 6 museums similarly...
+
         share.setOnClickListener(v -> {
             PopupMenu popup = new PopupMenu(MuseumInfo1.this, share);
             popup.getMenuInflater().inflate(R.menu.popup_menu3, popup.getMenu());
 
             popup.setOnMenuItemClickListener(item -> {
-                /*if ("Facebook".contentEquals(item.getTitle())) {
-                    //navigateToMainActivity();
-                } else if ("Profile Settings".contentEquals(item.getTitle())) {
-                    Intent intent = new Intent(MuseumInfo1.this, ProfileSettings.class);
-                    intent.putExtra("email", email);
-                    intent.putExtra("activity1", "museums");
-                    startActivity(intent);
-                }*/
+                // Retrieve the selected platform
+                String selectedPlatform = item.getTitle().toString();
+
+                // Get the appropriate link for the selected museum and platform
+                Map<String, String> linksForMuseum = museumLinks.get(selectedMuseum);
+                if (linksForMuseum != null) {
+                    String socialMediaUrl = linksForMuseum.get(selectedPlatform);
+                    if (socialMediaUrl != null) {
+                        shareLinkOnPlatform(socialMediaUrl);
+                    } else {
+                        Toast.makeText(this, "Link not available for this platform.", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Museum links not found.", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             });
             popup.show();
         });
     }
 
+    private void shareLinkOnPlatform(String url) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, url);
+
+        // Let the user choose their preferred app
+        startActivity(Intent.createChooser(shareIntent, "Share via"));
+    }
 
 
     private void highlightMenuItem(MenuItem menuItem) {

@@ -76,13 +76,97 @@ public class MuseumsActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        ImageButton nationalMuseum=findViewById(R.id.imageButton3);
+        LinearLayout layout2= findViewById(R.id.layout2);
+
+        nationalMuseum.setOnClickListener( v -> {
+            Intent intent = new Intent(MuseumsActivity.this, MuseumInfo1.class);
+            intent.putExtra("email", extras.getString("email"));
+            intent.putExtra("museum", "national_museum");
+            startActivity(intent);
+        });
+
+        layout2.setOnClickListener( v -> {
+            Intent intent = new Intent(MuseumsActivity.this, MuseumInfo1.class);
+            intent.putExtra("email", extras.getString("email"));
+            intent.putExtra("museum", "national_museum");
+            startActivity(intent);
+        });
+
+        ImageButton cardiffMuseum=findViewById(R.id.imageButton5);
+        LinearLayout layout3= findViewById(R.id.layout3);
+
+        cardiffMuseum.setOnClickListener( v -> {
+            Intent intent = new Intent(MuseumsActivity.this, MuseumInfo1.class);
+            intent.putExtra("email", extras.getString("email"));
+            intent.putExtra("museum", "cardiff_museum");
+            startActivity(intent);
+        });
+
+        layout3.setOnClickListener( v -> {
+            Intent intent = new Intent(MuseumsActivity.this, MuseumInfo1.class);
+            intent.putExtra("email", extras.getString("email"));
+            intent.putExtra("museum", "cardiff_museum");
+            startActivity(intent);
+        });
+
+        ImageButton st_fagans=findViewById(R.id.imageButton9);
+        LinearLayout layout4= findViewById(R.id.layout4);
+
+        st_fagans.setOnClickListener( v -> {
+            Intent intent = new Intent(MuseumsActivity.this, MuseumInfo1.class);
+            intent.putExtra("email", extras.getString("email"));
+            intent.putExtra("museum", "st_fagans");
+            startActivity(intent);
+        });
+
+        layout4.setOnClickListener( v -> {
+            Intent intent = new Intent(MuseumsActivity.this, MuseumInfo1.class);
+            intent.putExtra("email", extras.getString("email"));
+            intent.putExtra("museum", "st_fagans");
+            startActivity(intent);
+        });
+
+        ImageButton coal_museum=findViewById(R.id.imageButton6);
+        LinearLayout layout5= findViewById(R.id.layout5);
+
+        coal_museum.setOnClickListener( v -> {
+            Intent intent = new Intent(MuseumsActivity.this, MuseumInfo1.class);
+            intent.putExtra("email", extras.getString("email"));
+            intent.putExtra("museum", "coal_museum");
+            startActivity(intent);
+        });
+
+        layout5.setOnClickListener( v -> {
+            Intent intent = new Intent(MuseumsActivity.this, MuseumInfo1.class);
+            intent.putExtra("email", extras.getString("email"));
+            intent.putExtra("museum", "coal_museum");
+            startActivity(intent);
+        });
+
+        ImageButton legion_museum=findViewById(R.id.imageButton8);
+        LinearLayout layout6= findViewById(R.id.layout5);
+
+        legion_museum.setOnClickListener( v -> {
+            Intent intent = new Intent(MuseumsActivity.this, MuseumInfo1.class);
+            intent.putExtra("email", extras.getString("email"));
+            intent.putExtra("museum", "legion_museum");
+            startActivity(intent);
+        });
+
+        layout6.setOnClickListener( v -> {
+            Intent intent = new Intent(MuseumsActivity.this, MuseumInfo1.class);
+            intent.putExtra("email", extras.getString("email"));
+            intent.putExtra("museum", "legion_museum");
+            startActivity(intent);
+        });
 
 
         if (extras != null && extras.getString("email") != null) {
             loadProfilePicture(extras.getString("email"));
         }
 
-        setupMenu(menuButton, "Museums");
+        setupMenu(menuButton, "Museums", extras.getString("email"));
         setupProfileMenu(profilePic,extras.getString("email"));
 
     }
@@ -136,7 +220,7 @@ public class MuseumsActivity extends AppCompatActivity {
         }
     }
 
-    private void setupMenu(ImageButton menuButton, String highlightedItemId) {
+    private void setupMenu(ImageButton menuButton, String highlightedItemId, String email) {
         menuButton.setOnClickListener(v -> {
             PopupMenu popup = new PopupMenu(MuseumsActivity.this, menuButton);
             popup.getMenuInflater().inflate(R.menu.popup_menu, popup.getMenu());
@@ -151,8 +235,16 @@ public class MuseumsActivity extends AppCompatActivity {
             }
 
             popup.setOnMenuItemClickListener(item -> {
-                Toast.makeText(MuseumsActivity.this, "You clicked: " + item.getTitle(), Toast.LENGTH_SHORT).show();
-                return true;
+                 if(item.getTitle().equals("Cultural Library")){
+                     Intent i = new Intent(MuseumsActivity.this, CulturalLibrary.class);
+                     i.putExtra("email", email);
+                     startActivity(i);
+                } else if (item.getTitle().equals("News and Events")) {
+                     Intent i = new Intent(MuseumsActivity.this, NewsAndEvents.class);
+                     i.putExtra("email", email);
+                     startActivity(i);
+                 }
+                 return true;
             });
             popup.show();
         });
