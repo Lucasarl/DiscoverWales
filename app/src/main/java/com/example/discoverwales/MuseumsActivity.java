@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -38,6 +39,7 @@ public class MuseumsActivity extends AppCompatActivity {
 
     private static final connectionPG con = new connectionPG();
     private CircleImageView profilePic;
+    private TranslatorHelper translatorHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +48,20 @@ public class MuseumsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_museums);
 
         initializeWindowInsets();
+        String selectedLanguage = LanguagePreferences.getLanguage(this);
         FirebaseApp.initializeApp(this);
 
         ImageButton cardiffCastle=findViewById(R.id.imageButton2);
         cardiffCastle.setImageResource(R.drawable.cardiff_castle);
+        TextView cardiffCastleTitle = findViewById(R.id.textView6);
+        TextView nationalMuseumTitle = findViewById(R.id.textView23);
+        TextView mainTitle = findViewById(R.id.textView5);
+        TextView cardiffMuseumTitle = findViewById(R.id.textView8);
+        TextView stFagansTitle = findViewById(R.id.textView9);
+        TextView coalMuseumTitle = findViewById(R.id.textView10);
+        TextView legionMuseumTitle = findViewById(R.id.textView11);
+        TextView menuTitle = findViewById(R.id.textView14);
+
 
         LinearLayout layout1= findViewById(R.id.layout1);
 
@@ -58,7 +70,15 @@ public class MuseumsActivity extends AppCompatActivity {
         ImageButton menuButton = findViewById(R.id.menu);
         menuButton.setImageResource(R.drawable.menu);
 
-
+        translatorHelper = TranslatorManager.getTranslator(selectedLanguage);
+        translatorHelper.translateTextView(nationalMuseumTitle);
+        translatorHelper.translateTextView(cardiffCastleTitle);
+        translatorHelper.translateTextView(mainTitle);
+        translatorHelper.translateTextView(cardiffMuseumTitle);
+        translatorHelper.translateTextView(stFagansTitle);
+        translatorHelper.translateTextView(coalMuseumTitle);
+        translatorHelper.translateTextView(legionMuseumTitle);
+        translatorHelper.translateTextView(menuTitle);
 
         Bundle extras = getIntent().getExtras();
 
@@ -225,7 +245,6 @@ public class MuseumsActivity extends AppCompatActivity {
             PopupMenu popup = new PopupMenu(MuseumsActivity.this, menuButton);
             popup.getMenuInflater().inflate(R.menu.popup_menu, popup.getMenu());
 
-            System.out.println(popup.getMenu().size());
             for (int i = 0; i < popup.getMenu().size(); i++) {
                 MenuItem item = popup.getMenu().getItem(i);
                 if (item.getTitle().toString().equals(highlightedItemId)) {
@@ -241,6 +260,10 @@ public class MuseumsActivity extends AppCompatActivity {
                      startActivity(i);
                 } else if (item.getTitle().equals("News and Events")) {
                      Intent i = new Intent(MuseumsActivity.this, NewsAndEvents.class);
+                     i.putExtra("email", email);
+                     startActivity(i);
+                 } else if (item.getTitle().equals("Options")) {
+                     Intent i = new Intent(MuseumsActivity.this, Options.class);
                      i.putExtra("email", email);
                      startActivity(i);
                  }

@@ -16,17 +16,21 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.discoverwales.CulturalLibrary;
+import com.example.discoverwales.LanguagePreferences;
 import com.example.discoverwales.Library_info1;
 import com.example.discoverwales.MakeReview;
 import com.example.discoverwales.R;
 import com.example.discoverwales.ReviewAdapter;
 import com.example.discoverwales.Reviews;
+import com.example.discoverwales.TranslatorHelper;
+import com.example.discoverwales.TranslatorManager;
 import com.example.discoverwales.connectionPG;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +57,7 @@ public class ReviewsFragment1 extends Fragment {
     private RecyclerView reviewsRecyclerView;
     private ReviewAdapter reviewAdapter;
     private List<Reviews.Review> reviewList;
-
+    private TranslatorHelper translatorHelper;
 
     public ReviewsFragment1() {
         // Required empty public constructor
@@ -96,6 +100,7 @@ public class ReviewsFragment1 extends Fragment {
         reviewAdapter = new ReviewAdapter(new ArrayList<>());
         TextView noReviewsMessage = rootView.findViewById(R.id.noReviewsMessage);
         Button makeReview=rootView.findViewById(R.id.makeReviewButton);
+
         Bundle extras = getActivity().getIntent().getExtras();
         makeReview.setOnClickListener(v->{
             Intent intent = new Intent(getContext(), MakeReview.class);
@@ -104,12 +109,27 @@ public class ReviewsFragment1 extends Fragment {
             startActivity(intent);
         });
 
+        String selectedLanguage = LanguagePreferences.getLanguage(getContext());
+        translatorHelper = TranslatorManager.getTranslator(selectedLanguage);
+        translatorHelper.translate(makeReview.getText().toString(),   translatedText -> {
+            makeReview.setText(translatedText);}, e -> System.err.println(e.getMessage()));
+
         Button previous=rootView.findViewById(R.id.previousButton);
         reviewsRecyclerView.setAdapter(reviewAdapter);
         Button next=rootView.findViewById(R.id.nextButton);
         reviewList=fetchReviews(currentPage);
         updateButtonStates(noReviewsMessage, previous, next, reviewList.size());
         //previous.setEnabled(currentPage > 1);
+
+        translatorHelper.translate(previous.getText().toString(),   translatedText -> {
+            previous.setText(translatedText);}, e -> System.err.println(e.getMessage()));
+
+        translatorHelper.translate(next.getText().toString(),   translatedText -> {
+            next.setText(translatedText);}, e -> System.err.println(e.getMessage()));
+
+        TextView reviewsTitle= rootView.findViewById(R.id.reviewsTitle);
+        translatorHelper.translateTextView(reviewsTitle);
+
         previous.setOnClickListener(v -> {
             if (currentPage > 1) {
                 currentPage--;  // Decrease the current page
@@ -123,6 +143,24 @@ public class ReviewsFragment1 extends Fragment {
             reviewList=fetchReviews(currentPage);  // Fetch reviews for the new page
             updateButtonStates(noReviewsMessage, previous, next, reviewList.size());
         });
+
+        Connection conn2 = con.connectionDB();
+        if (conn2 != null) {
+            String checkEmailSql = "SELECT COUNT(*) FROM \"Reviews\" WHERE reviewer_id = ? AND museum = ?";
+            PreparedStatement pstmt2 = null;
+            try {
+                pstmt2 = conn2.prepareStatement(checkEmailSql);
+                pstmt2.setString(1, extras.getString("email"));
+                pstmt2.setString(2, extras.getString("museum"));
+                ResultSet rs2 = pstmt2.executeQuery();
+                if (rs2.next() && rs2.getInt(1) > 0) {
+                    makeReview.setEnabled(false);
+                    makeReview.setVisibility(View.GONE);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }}
+
 
         // Set adapter
         return rootView;

@@ -51,5 +51,7 @@ dependencies {
     implementation("org.apache.commons:commons-lang3:3.12.0")
     implementation(libs.glide)
     implementation("de.hdodenhof:circleimageview:1.2.1")
+    implementation("com.google.android.material:material:1.9.0")
+    implementation("com.google.mlkit:translate:17.0.1")
 }
 

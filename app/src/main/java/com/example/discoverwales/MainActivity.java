@@ -1,6 +1,8 @@
 package com.example.discoverwales;
 
 import android.app.AlertDialog;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.content.Intent;
@@ -15,6 +17,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.sql.Connection;
+import java.util.Locale;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.sql.PreparedStatement;

@@ -16,13 +16,8 @@
         />
 
     <item
-        android:id="@+id/Languages"
-        android:title="Languages"
-        />
-
-    <item
         android:id="@+id/accessibility_options"
-        android:title="Accessibility Options"
+        android:title="Options"
         />
 
 

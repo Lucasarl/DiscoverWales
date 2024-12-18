@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -36,6 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CulturalLibrary extends AppCompatActivity {
     private static final connectionPG con = new connectionPG();
     private CircleImageView profilePic;
+    private TranslatorHelper translatorHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,22 @@ public class CulturalLibrary extends AppCompatActivity {
 
         initializeWindowInsets();
         FirebaseApp.initializeApp(this);
+        String selectedLanguage = LanguagePreferences.getLanguage(this);
+        translatorHelper = TranslatorManager.getTranslator(selectedLanguage);
+        TextView textView1=this.findViewById(R.id.textView6);
+        TextView textView2=this.findViewById(R.id.textView7);
+        TextView textView3=this.findViewById(R.id.textView8);
+        TextView textView4 =this.findViewById(R.id.textView9);
+        TextView textView5 =this.findViewById(R.id.textView5);
+
+        translatorHelper.translateTextView(textView1);
+        translatorHelper.translateTextView(textView2);
+        translatorHelper.translateTextView(textView3);
+        translatorHelper.translateTextView(textView4);
+        translatorHelper.translateTextView(textView5);
+
+        TextView menuTitle=findViewById(R.id.textView14);
+        translatorHelper.translateTextView(menuTitle);
 
         ImageButton culture=findViewById(R.id.imageButton2);
 

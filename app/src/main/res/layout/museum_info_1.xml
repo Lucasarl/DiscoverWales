@@ -65,8 +65,9 @@
 
     <LinearLayout
         android:layout_width="409dp"
-        android:layout_height="650dp"
-        android:layout_margin="0dp"
+        android:id="@+id/layout_page"
+        android:layout_height="750dp"
+        android:layout_margin="20dp"
         android:layout_marginTop="20dp"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
@@ -74,7 +75,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="87dp"
+            android:layout_height="127dp"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -120,14 +121,29 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="179dp"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"></LinearLayout>
-
-                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"></LinearLayout>
+                        android:orientation="vertical">
+
+                        <RatingBar
+                            android:id="@+id/ratingBar3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="43dp"
+                            android:layout_gravity="center"
+                            android:isIndicator="true"
+                            android:numStars="5"
+
+                            android:scaleX="1"
+                            android:stepSize="0.5" />
+
+                        <TextView
+                            android:id="@+id/numberReviews"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="TextView"
+                            android:textAlignment="center" />
+                    </LinearLayout>
+
                 </LinearLayout>
             </LinearLayout>
 

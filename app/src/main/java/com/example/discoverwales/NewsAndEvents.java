@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -35,6 +36,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class NewsAndEvents extends AppCompatActivity {
     private static final connectionPG con = new connectionPG();
     private CircleImageView profilePic;
+    private TranslatorHelper translatorHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +49,23 @@ public class NewsAndEvents extends AppCompatActivity {
             return insets;
         });
 
+        String selectedLanguage = LanguagePreferences.getLanguage(this);
+        translatorHelper = TranslatorManager.getTranslator(selectedLanguage);
+
+        TextView menuTitle=findViewById(R.id.textView14);
+        translatorHelper.translateTextView(menuTitle);
+
+        TextView title=findViewById(R.id.title);
+        translatorHelper.translateTextView(title);
+
+        TextView newsTitle=findViewById(R.id.newsTitle);
+        translatorHelper.translateTextView(newsTitle);
+
+        TextView newsSubtitle=findViewById(R.id.newsSubtitle);
+        translatorHelper.translateTextView(newsSubtitle);
+
+        TextView newsDetails=findViewById(R.id.newsDetails);
+        translatorHelper.translateTextView(newsDetails);
 
 
         Bundle extras = getIntent().getExtras();
@@ -59,6 +79,10 @@ public class NewsAndEvents extends AppCompatActivity {
         setupMenu(menuButton, "News and Events", extras.getString("email"));
         setupProfileMenu(profilePic,extras.getString("email"));
         Button readMore=findViewById(R.id.readMoreButton);
+        System.out.println(readMore.getText().toString());
+        //readMore.setText(translatorHelper.translate(readMore.getText().toString()));
+        translatorHelper.translate(readMore.getText().toString(),   translatedText -> {
+            readMore.setText(translatedText);}, e -> System.err.println(e.getMessage()));
         readMore.setOnClickListener(v->{
                 Intent intent = new Intent(NewsAndEvents.this, Library_info1.class);
                 intent.putExtra("email", extras.getString("email"));

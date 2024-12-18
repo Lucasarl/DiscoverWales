@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,9 +40,11 @@ public class MuseumInfo1 extends AppCompatActivity  implements WebViewTouchListe
 
     private static final connectionPG con = new connectionPG();
     private CircleImageView profilePic;
+    private TranslatorHelper translatorHelper;
     TabLayout tabLayout;
     ViewPager2 viewPager2;
     ViewPagerAdapter viewPagerAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +56,15 @@ public class MuseumInfo1 extends AppCompatActivity  implements WebViewTouchListe
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        String selectedLanguage = LanguagePreferences.getLanguage(this);
+        translatorHelper = TranslatorManager.getTranslator(selectedLanguage);
+
+        TextView title=findViewById(R.id.title);
+
+        TextView menuTitle=findViewById(R.id.textView14);
+        translatorHelper.translateTextView(menuTitle);
 
         Bundle extras = getIntent().getExtras();
-
-        TextView title = findViewById(R.id.title);
         if (extras.getString("museum").equals("national_museum")) {
             title.setText("National Museum Cardiff");
         } else if (extras.getString("museum").equals("cardiff_museum")) {
@@ -67,6 +75,45 @@ public class MuseumInfo1 extends AppCompatActivity  implements WebViewTouchListe
             title.setText("National Coal Museum");
         } else if (extras.getString("museum").equals("legion_museum")) {
             title.setText("National Legion Museum");
+        }
+
+        translatorHelper.translateTextView(title);
+
+        TextView nRev=findViewById(R.id.numberReviews);
+
+        Connection conn= con.connectionDB();
+        String query = "SELECT COUNT(*) FROM \"Reviews\" WHERE museum=?";
+        int numberOfReviews=0;
+        try {
+            PreparedStatement pstmt=conn.prepareStatement(query);
+            pstmt.setString(1,extras.getString("museum"));
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                numberOfReviews=rs.getInt(1);
+                String numberReviews = "(" +numberOfReviews  + ") Reviews";
+                nRev.setText(numberReviews);
+            } else {
+                nRev.setText("(0) Reviews");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        translatorHelper.translateTextView(nRev);
+
+        RatingBar ratingBar = findViewById(R.id.ratingBar3);
+        String query2 = "SELECT rating FROM \"Reviews\" WHERE museum=?";
+        float totalStars = 0;
+        try {
+            PreparedStatement pstmt=conn.prepareStatement(query2);
+            pstmt.setString(1,extras.getString("museum"));
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                totalStars+=rs.getFloat(1);
+            }
+            ratingBar.setRating(totalStars/numberOfReviews);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
 
 
@@ -100,6 +147,19 @@ public class MuseumInfo1 extends AppCompatActivity  implements WebViewTouchListe
         viewPager2 = findViewById(R.id.view_pager);
         viewPagerAdapter = new ViewPagerAdapter(this);
         viewPager2.setAdapter(viewPagerAdapter);
+
+        for(int i=0; i<tabLayout.getTabCount()-1;i++){
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            if (tab != null && tab.getText() != null) {
+                String originalText = tab.getText().toString();
+                System.out.println(originalText);
+                translatorHelper.translate(originalText, translatedText -> {
+                    tab.setText(translatedText);
+                }, e -> System.err.println("Translation error: " + e.getMessage()));
+            } else {
+                System.err.println("Tab or tab text is null.");
+            }
+        }
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

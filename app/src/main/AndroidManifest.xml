@@ -15,6 +15,9 @@
         android:theme="@style/Theme.DiscoverWales"
         tools:targetApi="31">
         <activity
+            android:name=".Options"
+            android:exported="false" />
+        <activity
             android:name=".MakeReview"
             android:exported="false" />
         <activity

@@ -35,6 +35,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Library_info1 extends AppCompatActivity {
     private CircleImageView profilePic;
     ViewPager2 viewPager2;
+    private TranslatorHelper translatorHelper;
     ViewPagerAdapter2 viewPagerAdapter;
     private static final connectionPG con = new connectionPG();
     @Override
@@ -62,6 +63,12 @@ public class Library_info1 extends AppCompatActivity {
             title.setText("Language");
         } else if (extras.getString("museum").equals("news1")) {
             title.setText("Winter in Wales");}
+
+        String selectedLanguage = LanguagePreferences.getLanguage(this);
+        translatorHelper = TranslatorManager.getTranslator(selectedLanguage);
+        translatorHelper.translateTextView(title);
+        TextView menuTitle=findViewById(R.id.textView14);
+        translatorHelper.translateTextView(menuTitle);
 
         profilePic = findViewById(R.id.profile);
         profilePic.setImageResource(R.drawable.profile_pic);

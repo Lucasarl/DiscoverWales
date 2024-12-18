@@ -1,6 +1,9 @@
 package com.example.discoverwales.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
@@ -17,7 +20,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.discoverwales.LanguagePreferences;
 import com.example.discoverwales.R;
+import com.example.discoverwales.TranslatorHelper;
+import com.example.discoverwales.TranslatorManager;
+
 import android.net.Uri;
 import android.widget.Toast;
 
@@ -29,6 +36,7 @@ import java.util.Map;
  * create an instance of this fragment.
  */
 public class InformationFragment1 extends Fragment {
+    private TranslatorHelper translatorHelper;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -73,6 +81,8 @@ public class InformationFragment1 extends Fragment {
         // Inflate the layout for this fragment
 
         View rootView= inflater.inflate(R.layout.fragment_information1, container, false);
+        String selectedLanguage = LanguagePreferences.getLanguage(getContext());
+        translatorHelper = TranslatorManager.getTranslator(selectedLanguage);
         ImageButton playButton = rootView.findViewById(R.id.play_button);
         ImageButton pauseButton = rootView.findViewById(R.id.pause_button);
         ImageButton restartButton = rootView.findViewById(R.id.restart_button);
@@ -82,6 +92,7 @@ public class InformationFragment1 extends Fragment {
         mediaPlayer = MediaPlayer.create(getContext(), audioResId);
 
         audioTitle.setText(getAudioTitle(museum));
+        translatorHelper.translateTextView(audioTitle);
 
         playButton.setOnClickListener(v -> {
             if (!mediaPlayer.isPlaying()) {
@@ -312,7 +323,6 @@ public class InformationFragment1 extends Fragment {
                 webView.getSettings().setJavaScriptEnabled(true);
                 webView.setWebChromeClient(new WebChromeClient());
             }
-
             if(museum.equals("cardiff_castle")||museum.equals("national_museum")||museum.equals("cardiff_museum")||museum.equals("st_fagans")||museum.equals("coal_museum")||museum.equals("legion_museum")) {
                 LinearLayout buttonLayout = new LinearLayout(getContext());
                 buttonLayout.setOrientation(LinearLayout.HORIZONTAL);
@@ -333,11 +343,34 @@ public class InformationFragment1 extends Fragment {
                 LinearLayout rootLayout = rootView.findViewById(R.id.root_layout);
                 rootLayout.addView(buttonLayout);
             }
+
+            TextView textView1=rootView.findViewById(R.id.first_text_view);
+            TextView textView2=rootView.findViewById(R.id.second_text_view);
+            TextView textView3=rootView.findViewById(R.id.third_text_view);
+            translatorHelper.translateTextView(textView1);
+            translatorHelper.translateTextView(textView2);
+            translatorHelper.translateTextView(textView3);
+            SharedPreferences sharedPreferences = getContext().getSharedPreferences("AppPreferences", MODE_PRIVATE);
+            String textSize = sharedPreferences.getString("textSize", "Medium");
+
+            float size = 18f; // Default medium size
+            if ("Small".equals(textSize)) {
+                size = 16f;
+            } else if ("Large".equals(textSize)) {
+                size = 24f;
+            }
+
+            textView1.setTextSize(size);
+            textView2.setTextSize(size);
+            textView3.setTextSize(size);
+
         }
 
         return rootView;
 
     }
+
+
 
     private String getSocialMediaLink(String platform) {
         switch (museum) {
@@ -500,4 +533,5 @@ public class InformationFragment1 extends Fragment {
             mediaPlayer.release();
             mediaPlayer = null;
         }
-}}
+}
+    }

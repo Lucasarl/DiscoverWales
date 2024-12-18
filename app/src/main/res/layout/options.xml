@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor">
+
+    <!-- ImageButton in the top-left corner -->
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:padding="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Back"
+        android:src="@drawable/back_arrow"
+        android:tint="@color/primaryColor" />
+
+    <!-- Scrollable content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/imageButton"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:id="@+id/main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_card"
+            android:padding="16dp"
+            android:elevation="4dp">
+
+            <!-- Language Selection Section -->
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose a Language"
+                android:textSize="20sp"
+                android:textColor="@color/primaryTextColor"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-medium" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="16dp">
+
+                <Button
+                    android:id="@+id/buttonEnglish"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="English"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="@color/buttonBackgroundColor"
+                    android:textColor="@color/buttonTextColor"
+                    android:paddingHorizontal="16dp" />
+
+                <Button
+                    android:id="@+id/buttonWelsh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Welsh"
+                    android:backgroundTint="@color/buttonBackgroundColor"
+                    android:textColor="@color/buttonTextColor"
+                    android:paddingHorizontal="16dp" />
+            </LinearLayout>
+
+            <!-- Text Size Selection Section -->
+            <TextView
+                android:id="@+id/textSizeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Text Size"
+                android:textSize="20sp"
+                android:textColor="@color/primaryTextColor"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-medium" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupTextSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="16dp">
+
+                <RadioButton
+                    android:id="@+id/radioSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Small"
+                    android:textSize="16sp"
+                    android:buttonTint="@color/radioButtonColor"
+                    android:textColor="@color/secondaryTextColor" />
+
+                <RadioButton
+                    android:id="@+id/radioMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Medium"
+                    android:textSize="18sp"
+                    android:buttonTint="@color/radioButtonColor"
+                    android:textColor="@color/secondaryTextColor"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/radioLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Large"
+                    android:textSize="24sp"
+                    android:buttonTint="@color/radioButtonColor"
+                    android:textColor="@color/secondaryTextColor" />
+            </RadioGroup>
+
+            <!-- TalkBack Button -->
+            <Button
+                android:id="@+id/openTalkBackButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Open TalkBack Settings"
+                android:layout_gravity="center_horizontal"
+                android:backgroundTint="@color/buttonBackgroundColor"
+                android:textColor="@color/buttonTextColor"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

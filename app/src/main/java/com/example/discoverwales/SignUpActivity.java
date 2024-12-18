@@ -124,13 +124,9 @@ public class SignUpActivity extends AppCompatActivity {
         System.out.println(storageReference.getBucket());
 
         uploadImage.setOnClickListener( v -> {
-            //StorageReference imgRef = storageRef.child("IMG.jpg");
-            //StorageReference locationImgRef = storageRef.child("C:/Users/USER/OneDrive/Imágenes");
             Intent intent= new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");
             activityResultLauncher.launch(intent);
-            //uploadImage(image);
-
         });
 
         signUp.setOnClickListener(v -> {
